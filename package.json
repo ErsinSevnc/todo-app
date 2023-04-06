@@ -15,5 +15,14 @@
   "bugs": {
     "url": "https://github.com/ErsinSevnc/todo-app/issues"
   },
-  "homepage": "https://github.com/ErsinSevnc/todo-app#readme"
+  "homepage": "https://github.com/ErsinSevnc/todo-app#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-graphql": "^0.12.0",
+    "graphql": "^16.6.0",
+    "typescript": "^5.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
 }
