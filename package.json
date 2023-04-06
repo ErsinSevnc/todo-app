@@ -1,0 +1,19 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "description": "Node.JS, GraphQL, TypeScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ErsinSevnc/todo-app.git"
+  },
+  "author": "Ersin Sevinç",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ErsinSevnc/todo-app/issues"
+  },
+  "homepage": "https://github.com/ErsinSevnc/todo-app#readme"
+}
