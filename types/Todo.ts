@@ -1,7 +1,10 @@
 interface ITodo {
     title: String,
     completed: Boolean,
-    creationDate: String
+    creationDate: String,
+    category: TodoCaregories
 };
+
+type TodoCaregories = "personal" | "duty";
 
 export default ITodo;

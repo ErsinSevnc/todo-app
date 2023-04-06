@@ -1,19 +1,22 @@
 {
-    "data": [
+    "todos": [
         {
             "title": "House Cleaning",
             "completed": false,
-            "creationDate": "1680773963827"
+            "creationDate": "1680773963827",
+            "category": "personal"
         },
         {
             "title": "Walk with Muffin",
             "completed": false,
-            "creationDate": "1680774028089"
+            "creationDate": "1680774028089",
+            "category": "duty"
         },
         {
             "title": "Walk With Arthur",
             "completed": false,
-            "creationDate": "1680774024543"
+            "creationDate": "1680774024543",
+            "category": "duty"
         }
     ]
 }
