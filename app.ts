@@ -2,7 +2,7 @@ import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import {buildSchema} from 'graphql';
 import fs from 'fs';
-
+import {ApolloServer, gql} from 'apollo-server-express'
 
 const app = express();
 
@@ -14,10 +14,13 @@ const PORT: number = 3000;
 const schema = buildSchema(`
   type Query {
     hello: String!
-    user: User!
+    todos: [Todo]!
   }
-  type User {
-    name: String!
+  type Todo {
+    title: String,
+    completed: Boolean,
+    creationDate: String,
+    category: String
   }
 `);
 
@@ -26,12 +29,13 @@ const rootValue = {
   hello: () => {
     return 'Hello world!';
   },
-  user: () => {
-    return {
-        name: 'ersin'
-    }
-  }
+  todos: () => [{title: "ersin"}, {title: "esra"}]
 };
+
+//apollo
+// const apolloServer = new ApolloServer({schema, rootValue})
+// apolloServer.applyMiddleware({app});
+
 
 //middlewares
 app.use(express.json());
@@ -42,9 +46,13 @@ app.use(
 
 
 app.get('/', (_req, res) => {
+    console.log('reuqest')
     fs.readFile('./data/data.json', 'utf-8', (err, fileData) => {
         if(!err) {
             const {todos} = JSON.parse(fileData);
+            res.set('Content-Type', 'application/json');
+            res.set('Access-Control-Allow-Origin', '*');
+            res.status(200);
             res.send(todos);
         }
     })
