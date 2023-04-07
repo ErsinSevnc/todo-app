@@ -1,10 +1,17 @@
 import express from 'express';
-import { graphqlHTTP } from 'express-graphql';
 import {buildSchema} from 'graphql';
-import fs from 'fs';
-import {ApolloServer, gql} from 'apollo-server-express'
+import {promises as fsPromises} from 'fs';
+import {ApolloServer, ExpressContext, gql} from 'apollo-server-express'
+import { createServer, Server } from 'http';
 
 const app = express();
+app.use(express.json());
+// app.use(headerMiddleware)
+
+// function headerMiddleware(_req: express.Request, res: express.Response, next: express.NextFunction){
+//   res.set('Access-Control-Allow-Origin', '*')
+//   next();
+// }
 
 const GRAPHQL: string = process.env.GRAPHQL || '/graphql';
 const PORT: number = 3000;
@@ -14,13 +21,13 @@ const PORT: number = 3000;
 const schema = buildSchema(`
   type Query {
     hello: String!
-    todos: [Todo]!
+    todos: [Todo]
   }
   type Todo {
-    title: String,
-    completed: Boolean,
-    creationDate: String,
-    category: String
+    title: String!,
+    completed: Boolean!,
+    creationDate: String!,
+    category: String!
   }
 `);
 
@@ -29,33 +36,53 @@ const rootValue = {
   hello: () => {
     return 'Hello world!';
   },
-  todos: () => [{title: "ersin"}, {title: "esra"}]
+  todos: async () => await readData()
 };
 
+async function readData() {
+  const data = await fsPromises.readFile('./data/data.json', 'utf-8');
+  const {todos} = JSON.parse(data);
+  return todos;
+
+}
+
+async function runApp() {
+    const server = createServer(app);
+    const apolloServer = await createApolloServer(server, app);
+
+    app.listen(PORT, () => {
+      console.log(`app running on port: ${PORT}`)
+      console.log(`Apollo server path: http://localhost:${PORT}${apolloServer.graphqlPath}`)
+    });
+}
+
 //apollo
-// const apolloServer = new ApolloServer({schema, rootValue})
-// apolloServer.applyMiddleware({app});
+async function createApolloServer(httpServer: Server, app: express.Application): Promise<ApolloServer<ExpressContext>> {
+  const apolloServer = new ApolloServer({schema, rootValue})
+  await apolloServer.start();
+  apolloServer.applyMiddleware({app});
 
+  return apolloServer;
+}
 
+runApp();
 //middlewares
-app.use(express.json());
-app.use(
-    GRAPHQL,
-    graphqlHTTP({schema, rootValue, graphiql: true})
-)
+// app.use(express.json());
+// app.use(
+//     GRAPHQL,
+//     graphqlHTTP({schema, rootValue, graphiql: true})
+// )
 
 
-app.get('/', (_req, res) => {
-    console.log('reuqest')
-    fs.readFile('./data/data.json', 'utf-8', (err, fileData) => {
-        if(!err) {
-            const {todos} = JSON.parse(fileData);
-            res.set('Content-Type', 'application/json');
-            res.set('Access-Control-Allow-Origin', '*');
-            res.status(200);
-            res.send(todos);
-        }
-    })
-});
-
-app.listen(PORT, () => console.log(`app running on port: ${PORT}`));
+// app.get('/', (_req, res) => {
+//     console.log('reuqest')
+//     fs.readFile('./data/data.json', 'utf-8', (err, fileData) => {
+//         if(!err) {
+//             const {todos} = JSON.parse(fileData);
+//             res.set('Content-Type', 'application/json');
+//             res.set('Access-Control-Allow-Origin', '*');
+//             res.status(200);
+//             res.send(todos);
+//         }
+//     })
+// });

@@ -6,7 +6,7 @@ const App = () => {
     const [todos, setTodos] = useState([]);
 
     const client = new ApolloClient({
-        uri: 'http://localhost:3000/gprahql',
+        uri: 'http://localhost:3000/graphql',
         cache: new InMemoryCache()
     });
 
