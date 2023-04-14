@@ -6,6 +6,8 @@ import { createServer, Server } from 'http';
 
 const app = express();
 app.use(express.json());
+
+//-----NO NEED CUSTOM MIDDLEWARE-----
 // app.use(headerMiddleware)
 
 // function headerMiddleware(_req: express.Request, res: express.Response, next: express.NextFunction){

@@ -9,4 +9,4 @@ const GET_ALL_TODOS = gql`
     }
 `;
 
-export default GET_ALL_TODOS;
+export {GET_ALL_TODOS};
