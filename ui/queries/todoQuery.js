@@ -5,6 +5,7 @@ const GET_ALL_TODOS = gql`
         todos {
             title
             category
+            creationDate
         }
     }
 `;
