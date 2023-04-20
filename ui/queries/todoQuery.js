@@ -9,5 +9,22 @@ const GET_ALL_TODOS = gql`
         }
     }
 `;
+/**
+ * 
+ * @param {Array} queries
+ * @returns GraphQL Query 
+ * 
+ */
+const todoQueryCreator = (queries) => {
+    const query = gql`
+        query GetTodos {
+            todos {
+                ${queries.map(query => `${query}\n`)}
+            }
+        }
+    `;
+    
+    return query;
+};
 
-export {GET_ALL_TODOS};
+export {GET_ALL_TODOS, todoQueryCreator};

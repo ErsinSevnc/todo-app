@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Todo from '../components/Todo';
 import { useQuery, gql } from '@apollo/client';
-import {GET_ALL_TODOS} from '../../queries/todoQuery';
+import {GET_ALL_TODOS, todoQueryCreator} from '../../queries/todoQuery';
 import Actions from '../components/Actions';
 
 
@@ -22,8 +22,10 @@ const actionContainer = {
     flex: 1
 };
 
+const getQuery = todoQueryCreator(['title, category, creationDate']);
+
 const Root = () => {
-    const {loading, error, data} = useQuery(GET_ALL_TODOS);
+    const {loading, error, data} = useQuery(getQuery);
 
     if(loading) {
         return(
