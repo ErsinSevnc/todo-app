@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon dist/app.js",
+    "ui": "cd ui/ && npm run dev",
     "build": "tsc",
     "build:watch": "tsc --watch"
   },
@@ -33,6 +34,7 @@
     "@types/express": "^4.17.17",
     "@types/express-graphql": "^0.9.0",
     "@types/node": "^18.15.11",
+    "@types/react": "^18.2.6",
     "nodemon": "^2.0.22"
   }
 }

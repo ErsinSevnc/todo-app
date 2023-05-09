@@ -1,7 +1,6 @@
-import React from 'react';
+import { TodoCategory } from "../types/todo-types";
 
-
-const todoWrapperStyle = {
+const todoWrapperStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     boxShadow: '1px 1px 5px 3px rgba(0, 0, 0, 0.05)',
@@ -10,7 +9,7 @@ const todoWrapperStyle = {
     marginBottom: '64px'
 };
 
-const todoTopStyle = {
+const todoTopStyle: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'space-between',
     marginBottom: '32px',
@@ -18,17 +17,31 @@ const todoTopStyle = {
     fontSize: '16px'
 };
 
-const categoryStyle = {
+const todoBottomStyle: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: 'space-between'
+};
+
+const categoryStyle: React.CSSProperties = {
     fontWeight: 'bold',
     textTransform: 'capitalize'
 };
 
-const titleStyle = {
+const titleStyle: React.CSSProperties = {
     fontWeight: 'bold'
 };
 
+interface Todo {
+    todo: {
+        title: string;
+        completed: boolean;
+        creationDate: string;
+        category: TodoCategory
+    },
+    onChange?: React.ChangeEventHandler
+};
 
-const Todo = ({todo}) => {
+const Todo = ({todo} : Todo) => {
 
     return(
         <>
@@ -37,8 +50,9 @@ const Todo = ({todo}) => {
                     <div className="title" style={titleStyle}>{todo.title}</div>
                     <div className="todo-category" style={categoryStyle}>{todo.category}</div>
                 </div>
-                <div className="todo-bottom">
+                <div className="todo-bottom" style={todoBottomStyle}>
                     <div className="todo-time">{new Date(Number(todo.creationDate)).toDateString()}</div>
+                    <input type="checkbox"/>
                 </div>
             </div>
         </>

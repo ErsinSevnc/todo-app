@@ -1,7 +1,6 @@
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import Root from "./src/pages/Root";
 
-
 const App = () => {
 
     const client = new ApolloClient({
