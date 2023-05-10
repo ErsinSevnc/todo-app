@@ -1,6 +1,6 @@
 import express from 'express';
 import {buildSchema} from 'graphql';
-import {promises as fsPromises} from 'fs';
+import {promises as fsPromises, read} from 'fs';
 import {ApolloServer, ExpressContext, gql} from 'apollo-server-express'
 import { createServer, Server } from 'http';
 
@@ -18,6 +18,17 @@ app.use(express.json());
 const GRAPHQL: string = process.env.GRAPHQL || '/graphql';
 const PORT: number = 3000;
 
+interface CreateTodo {
+  todo: Todo
+}
+
+type Todo = {
+  title: string,
+  completed: boolean,
+  creationDate: string,
+  category: string
+};
+
 
 // Construct a schema, using GraphQL schema language
 const schema = buildSchema(`
@@ -25,28 +36,57 @@ const schema = buildSchema(`
     hello: String!
     todos: [Todo]
   }
+
   type Todo {
     title: String!,
     completed: Boolean!,
     creationDate: String!,
     category: String!
   }
+
+  input TodoInput {
+    category: String!,
+    completed: Boolean,
+    creationDate: String,
+    title: String!
+  }
+
+  type Mutation {
+    createTodo(todo: TodoInput!): Todo!
+  }
 `);
 
 // The root provides a resolver function for each API endpoint
 const rootValue = {
-  hello: () => {
-    return 'Hello world!';
-  },
-  todos: async () => await readData()
+  
+    hello: () => {
+      return 'Hello world!';
+    },
+    todos: async () => await readData(),
+    createTodo: async ({todo}: CreateTodo) => await writeData(todo)
+
 };
 
 async function readData() {
   const data = await fsPromises.readFile('./data/data.json', 'utf-8');
   const {todos} = JSON.parse(data);
   return todos;
+};
 
-}
+async function writeData({category, completed, creationDate, title}: Todo) {
+ const data = await fsPromises.readFile('./data/data.json', 'utf-8');
+ const res = JSON.parse(data);
+ res.todos.push({category, completed, creationDate, title});
+ return await fsPromises.writeFile('./data/data.json', JSON.stringify(res), 'utf-8')
+  .then(_ => {
+    return {
+      category,
+      completed,
+      creationDate,
+      title
+    }
+ }).catch(e => console.log(e))
+};
 
 async function runApp() {
     const server = createServer(app);

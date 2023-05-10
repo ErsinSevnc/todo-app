@@ -17,18 +17,6 @@
             "completed": false,
             "creationDate": "1680774024543",
             "category": "duty"
-        },
-        {
-            "category": "personale",
-            "completed": true,
-            "creationDate": "1235",
-            "title": "ev temizle"
-        },
-        {
-            "category": "personale",
-            "completed": true,
-            "creationDate": "1235",
-            "title": "ev temizle"
         }
     ]
 }
