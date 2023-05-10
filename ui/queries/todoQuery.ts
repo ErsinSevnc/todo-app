@@ -15,7 +15,7 @@ const GET_ALL_TODOS = gql`
  * @returns GraphQL Query 
  * 
  */
-const todoQueryCreator = (queries) => {
+const todoQueryCreator = (queries: string[]) => {
     const query = gql`
         query GetTodos {
             todos {

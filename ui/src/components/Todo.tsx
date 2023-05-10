@@ -31,17 +31,17 @@ const titleStyle: React.CSSProperties = {
     fontWeight: 'bold'
 };
 
-interface Todo {
+interface TodoProps {
     todo: {
         title: string;
         completed: boolean;
         creationDate: string;
         category: TodoCategory
     },
-    onChange?: React.ChangeEventHandler
+    onChange: React.ChangeEventHandler
 };
 
-const Todo = ({todo} : Todo) => {
+const Todo = ({todo, onChange} : TodoProps) => {
 
     return(
         <>
@@ -52,7 +52,7 @@ const Todo = ({todo} : Todo) => {
                 </div>
                 <div className="todo-bottom" style={todoBottomStyle}>
                     <div className="todo-time">{new Date(Number(todo.creationDate)).toDateString()}</div>
-                    <input type="checkbox"/>
+                    <input type="checkbox" onChange={(e) => onChange(e)}/>
                 </div>
             </div>
         </>

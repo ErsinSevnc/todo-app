@@ -4,15 +4,16 @@ import { useQuery, gql } from '@apollo/client';
 import {GET_ALL_TODOS, todoQueryCreator} from '../../queries/todoQuery';
 import Actions from '../components/Actions';
 import CreateTodo from '../components/Create-todo';
+import {TodoType} from '../types/todo-types';
 
-const todoContainerStyle = {
+const todoContainerStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
     height: '100vh',
     flex: '2'
 };
 
-const actionContainer = {
+const actionContainer: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'center',
     flex: 1
@@ -39,13 +40,17 @@ const Root = () => {
         )
     };
 
+    const testChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(e.target.checked);  
+    };
+
     if(data) {
         return(
             <>
                 <div className="layout-container">
                     <CreateTodo />
                     <div className='todo-container' style={todoContainerStyle}>
-                        {data.todos.map((todo, idx) => <Todo key={`todo-${idx}`} todo={todo}/>)}
+                        {data.todos.map((todo: TodoType, idx: number) => <Todo key={`todo-${idx}`} todo={todo} onChange={testChange}/>)}
                     </div>
                     <div className="action-container" style={actionContainer}>
                         <Actions />
