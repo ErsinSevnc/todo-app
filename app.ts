@@ -1,7 +1,7 @@
 import express from 'express';
 import {buildSchema} from 'graphql';
-import {promises as fsPromises, read} from 'fs';
-import {ApolloServer, ExpressContext, gql} from 'apollo-server-express'
+import {promises as fsPromises} from 'fs';
+import {ApolloServer, ExpressContext} from 'apollo-server-express'
 import { createServer, Server } from 'http';
 
 const app = express();
