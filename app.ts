@@ -33,7 +33,6 @@ type Todo = {
 // Construct a schema, using GraphQL schema language
 const schema = buildSchema(`
   type Query {
-    hello: String!
     todos: [Todo]
   }
 
@@ -58,10 +57,6 @@ const schema = buildSchema(`
 
 // The root provides a resolver function for each API endpoint
 const rootValue = {
-  
-    hello: () => {
-      return 'Hello world!';
-    },
     todos: async () => await readData(),
     createTodo: async ({todo}: CreateTodo) => await writeData(todo)
 
